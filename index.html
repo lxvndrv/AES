@@ -16,7 +16,7 @@
             --gold-glow: rgba(223, 178, 76, 0.4);
             --text-color: #e2e8f0;
             --border-color: #2a323d;
-            --white-glow: rgba(255, 255, 255, 0.8);
+            --white-glow: rgba(255, 255, 255, 0.35);
         }
 
         * {
@@ -54,24 +54,54 @@
             transition: opacity 1s ease-in-out;
         }
 
-        .logo-box {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 20px;
+        /* Center wrapper to hold the aura and the image together */
+        .logo-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-bottom: 15px;
             opacity: 0;
             animation: fadeInLogo 1.5s ease-out forwards;
             animation-delay: 0.5s;
         }
 
-        /* Displays your exact backpack logo image with a clean, custom white outer glow aura */
-        .logo-box img {
-            max-width: 100%;
-            max-height: 100%;
+        /* The Custom Center Background Glow Aura sitting BEHIND the logo */
+        .logo-glow-aura {
+            position: absolute;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, var(--white-glow) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            z-index: 1;
+            pointer-events: none;
+            mix-blend-mode: screen;
+            animation: pulseGlow 3s ease-in-out infinite alternate;
+        }
+
+        /* The Logo Image itself layered on top of the glow */
+        .logo-container img {
+            position: relative;
+            z-index: 2;
+            max-width: 90%;
+            max-height: 90%;
             object-fit: contain;
-            filter: drop-shadow(0 0 30px var(--white-glow));
+        }
+
+        .logo-title-fix {
+            color: var(--gold);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 15px var(--gold-glow);
+            text-align: center;
+            opacity: 0;
+            animation: fadeInText 1.2s ease forwards;
+            animation-delay: 0.8s;
         }
 
         .boot-text {
@@ -79,15 +109,28 @@
             font-size: 1rem;
             letter-spacing: 1px;
             text-align: center;
-            margin-top: 10px;
+            opacity: 0;
+            animation: fadeInText 1.2s ease forwards;
+            animation-delay: 1s;
+        }
+
+        /* Ambient Pulsing effect for the background white light */
+        @keyframes pulseGlow {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.1); opacity: 1; filter: blur(2px); }
         }
 
         @keyframes fadeInLogo {
-            0% { transform: scale(0.9); opacity: 0; }
+            0% { transform: scale(0.95); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
 
-        /* --- MAIN DECRYPTION PANEL --- */
+        @keyframes fadeInText {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- MAIN TERMINAL PANEL --- */
         .terminal {
             background-color: var(--container-bg);
             border: 2px solid var(--border-color);
@@ -97,7 +140,7 @@
             max-width: 500px;
             padding: 35px 25px;
             text-align: center;
-            display: none; /* Controlled via JS transition */
+            display: none;
             opacity: 0;
             transform: scale(0.95);
             transition: opacity 1s ease, transform 1s ease;
@@ -257,10 +300,12 @@
 <body>
 
     <div id="intro-screen">
-        <div class="logo-box">
-            <img src="logo.jpeg" alt="AES Logo">
+        <div class="logo-container">
+            <div class="logo-glow-aura"></div>
+            <img src="aes.logo.jpeg" alt="AES Logo">
         </div>
-        <div class="boot-text" id="boot-text">Connecting to AES Core...</div>
+        <div class="logo-title-fix">ACADEMIC ELITE SCHOOL</div>
+        <div class="boot-text" id="boot-text">Decrypting server keys...</div>
     </div>
 
     <div class="terminal" id="terminal">
@@ -327,7 +372,7 @@
                 const intro = document.getElementById("intro-screen");
                 const terminal = document.getElementById("terminal");
                 
-                // Smooth fade transition out
+                // Fade out intro screen smoothly
                 intro.style.opacity = "0";
                 
                 setTimeout(() => {

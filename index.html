@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&display=swap" rel="stylesheet">
 
     <style>
-        /* AES Black and Gold Theme Colors */
         :root {
             --bg-color: #0b0d0f;
             --container-bg: #13171a;
@@ -17,14 +16,14 @@
             --gold-glow: rgba(223, 178, 76, 0.4);
             --text-color: #e2e8f0;
             --border-color: #2a323d;
-            --white-glow: rgba(255, 255, 255, 0.6);
+            --white-glow: rgba(255, 255, 255, 0.8);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Fredoka', sans-serif; /* Applied everywhere */
+            font-family: 'Fredoka', sans-serif;
         }
 
         body {
@@ -38,7 +37,7 @@
             overflow: hidden;
         }
 
-        /* --- ADVANCED CINEMATIC INTRO SCREEN --- */
+        /* --- INTRO SCREEN --- */
         #intro-screen {
             position: fixed;
             top: 0;
@@ -52,87 +51,43 @@
             align-items: center;
             z-index: 999;
             opacity: 1;
-            visibility: visible;
-            transition: opacity 1.2s ease-in-out, visibility 1.2s;
+            transition: opacity 1s ease-in-out;
         }
 
-        /* Container isolating the custom logo graphic */
         .logo-box {
-            position: relative;
-            width: 180px;
-            height: 180px;
-            margin-bottom: 30px;
-            opacity: 0;
+            width: 200px;
+            height: 200px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            animation: fadeInLogo 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-            animation-delay: 0.8s;
+            opacity: 0;
+            animation: fadeInLogo 1.5s ease-out forwards;
+            animation-delay: 0.5s;
         }
 
-        /* Pure CSS drawing your exact custom pixel logo layout with a glowing white background aura */
-        .custom-pixel-backpack {
-            width: 100px;
-            height: 120px;
-            background-color: #121518;
-            border: 5px solid #1a1e22;
-            border-radius: 20px 20px 30px 30px;
-            position: relative;
-            /* Creates the perfect white glow look behind the logo without a messy square box */
-            filter: drop-shadow(0 0 25px var(--white-glow)); 
-        }
-
-        /* The Graduation Cap on top of the backpack */
-        .custom-pixel-backpack::before {
-            content: '';
-            position: absolute;
-            top: -22px;
-            left: -15px;
-            width: 120px;
-            height: 30px;
-            background-color: #0c0e10;
-            border: 4px solid var(--gold);
-            transform: rotate(-12deg);
-            border-radius: 4px;
-        }
-
-        /* The AES Yellow text inside the bag */
-        .custom-pixel-backpack::after {
-            content: 'AES';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -30%);
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--gold);
-            letter-spacing: 2px;
+        /* Displays your exact backpack logo image with a clean, custom white outer glow aura */
+        .logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 0 30px var(--white-glow));
         }
 
         .boot-text {
             color: #64748b;
             font-size: 1rem;
-            letter-spacing: 1.5px;
-            font-weight: 500;
-            height: 25px;
+            letter-spacing: 1px;
             text-align: center;
-            opacity: 0;
-            animation: fadeInText 1s ease forwards;
-            animation-delay: 0.2s;
+            margin-top: 10px;
         }
 
-        /* Fade Animations */
         @keyframes fadeInLogo {
-            0% { opacity: 0; transform: scale(0.9); }
-            100% { opacity: 1; transform: scale(1); }
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
-        @keyframes fadeInText {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
-
-        /* --- MAIN QUESTION INTERFACE DECRYPTION PANEL --- */
+        /* --- MAIN DECRYPTION PANEL --- */
         .terminal {
             background-color: var(--container-bg);
             border: 2px solid var(--border-color);
@@ -142,13 +97,14 @@
             max-width: 500px;
             padding: 35px 25px;
             text-align: center;
+            display: none; /* Controlled via JS transition */
             opacity: 0;
-            transform: scale(0.96);
-            transition: opacity 1.5s cubic-bezier(0.34, 1.56, 0.64, 1), transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: scale(0.95);
+            transition: opacity 1s ease, transform 1s ease;
         }
 
-        /* Smooth reveal trigger */
         .terminal.visible {
+            display: block;
             opacity: 1;
             transform: scale(1);
         }
@@ -160,7 +116,7 @@
 
         h1 {
             color: var(--gold);
-            font-size: 2.1rem;
+            font-size: 2rem;
             font-weight: 700;
             letter-spacing: 2px;
             margin-bottom: 6px;
@@ -168,15 +124,13 @@
         }
 
         .subtitle {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 500;
             color: #64748b;
             margin-bottom: 35px;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
-        /* Decryption Box Items */
         .date-display {
             display: flex;
             justify-content: center;
@@ -197,14 +151,13 @@
             align-items: center;
             border-radius: 8px;
             color: #475569;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.3s ease;
         }
 
         .box.revealed {
             color: var(--gold);
             border-color: var(--gold);
             text-shadow: 0 0 10px var(--gold-glow);
-            transform: translateY(-4px);
         }
 
         .separator {
@@ -213,7 +166,6 @@
             font-weight: 700;
         }
 
-        /* Puzzle Settings Layout */
         .puzzle-section {
             border-top: 1px solid var(--border-color);
             padding-top: 25px;
@@ -226,7 +178,6 @@
             background-color: #181d22;
             border-left: 5px solid #475569;
             border-radius: 0 12px 12px 0;
-            transition: all 0.4s ease;
         }
 
         .riddle-card.solved {
@@ -240,7 +191,6 @@
             color: var(--gold);
             margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .riddle-text {
@@ -248,7 +198,6 @@
             line-height: 1.5;
             margin-bottom: 15px;
             color: #cbd5e1;
-            font-weight: 400;
         }
 
         .input-group {
@@ -265,8 +214,6 @@
             font-size: 1rem;
             border-radius: 8px;
             outline: none;
-            font-weight: 500;
-            transition: border-color 0.2s;
         }
 
         input[type="text"]:focus {
@@ -282,15 +229,160 @@
             font-size: 0.95rem;
             font-weight: 700;
             border-radius: 8px;
-            letter-spacing: 1px;
-            transition: all 0.2s ease;
+            transition: all 0.2s;
         }
 
         button:hover {
             background-color: var(--gold);
             color: #000;
-            transform: translateY(-2px);
         }
 
         .solved-msg {
-            color: #10b9
+            color: #10b981;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .reveal-banner {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: linear-gradient(45deg, #1e1b12, #2d2410);
+            border: 2px dashed var(--gold);
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="intro-screen">
+        <div class="logo-box">
+            <img src="https://lxvndrv.github.io/AES/WhatsApp%20Image%202026-05-17%20at%2007.17.41.jpeg" alt="AES Logo" onerror="this.src='https://i.imgur.com/b7N6WvB.png';">
+        </div>
+        <div class="boot-text" id="boot-text">Connecting to AES Core...</div>
+    </div>
+
+    <div class="terminal" id="terminal">
+        <h1>A.E.S SYSTEM</h1>
+        <div class="subtitle">Academic Elite School // Decryption Protocol</div>
+
+        <div class="date-display">
+            <div class="box" id="d1">?</div>
+            <div class="box" id="d2">?</div>
+            <div class="separator">.</div>
+            <div class="box" id="m1">?</div>
+            <div class="box" id="m2">?</div>
+            <div class="separator">.</div>
+            <div class="box" id="y1" style="color: var(--gold); border-color: var(--gold);">2</div>
+            <div class="box" id="y2" style="color: var(--gold); border-color: var(--gold);">0</div>
+            <div class="box" id="y3" style="color: var(--gold); border-color: var(--gold);">2</div>
+            <div class="box" id="y4" style="color: var(--gold); border-color: var(--gold);">6</div>
+        </div>
+
+        <div class="puzzle-section">
+            <div class="riddle-card" id="card1">
+                <div class="riddle-title">Database Core #01: The Day Code</div>
+                <div class="riddle-text">Enter the numeric code to unlock the target return DAY. (Hint: Try entering "28")</div>
+                <div class="input-group" id="group1">
+                    <input type="text" id="ans1" placeholder="Enter code parameters...">
+                    <button onclick="checkRiddle1()">SUBMIT</button>
+                </div>
+                <div class="solved-msg" id="msg1">✓ ACCESS GRANTED: RETURN DAY REVEALED</div>
+            </div>
+
+            <div class="riddle-card" id="card2">
+                <div class="riddle-title">Database Core #02: The Foundation Pass</div>
+                <div class="riddle-text">What core principle shields our school honor against toxic words? (Hint: Try entering "DISCIPLINE")</div>
+                <div class="input-group" id="group2">
+                    <input type="text" id="ans2" placeholder="Enter encryption phrase...">
+                    <button onclick="checkRiddle2()">SUBMIT</button>
+                </div>
+                <div class="solved-msg" id="msg2">✓ ACCESS GRANTED: RETURN MONTH REVEALED</div>
+            </div>
+        </div>
+
+        <div class="reveal-banner" id="revealBanner">
+            <h2 style="color: var(--gold); margin-bottom: 8px; font-size: 1.4rem;">SYSTEM DECRYPTION SUCCESSFUL</h2>
+            <p style="font-size: 0.95rem; color: #cbd5e1; line-height: 1.5;">Class is officially back in session. The Elite have returned.</p>
+        </div>
+    </div>
+
+    <script>
+        const bootMessages = [
+            "Accessing encrypted paths...",
+            "Decrypting server keys...",
+            "System online. Syncing interface..."
+        ];
+        let messageIdx = 0;
+        const bootTextElem = document.getElementById("boot-text");
+
+        const bootInterval = setInterval(() => {
+            if (messageIdx < bootMessages.length) {
+                bootTextElem.innerText = bootMessages[messageIdx];
+                messageIdx++;
+            } else {
+                clearInterval(bootInterval);
+                
+                const intro = document.getElementById("intro-screen");
+                const terminal = document.getElementById("terminal");
+                
+                // Smooth fade transition out
+                intro.style.opacity = "0";
+                
+                setTimeout(() => {
+                    intro.style.display = "none";
+                    terminal.classList.add("visible");
+                }, 1000);
+            }
+        }, 1200);
+
+        const CORRECT_ANSWER_1 = "28"; 
+        const CORRECT_ANSWER_2 = "DISCIPLINE"; 
+
+        let r1Solved = false;
+        let r2Solved = false;
+
+        function checkRiddle1() {
+            const userInput = document.getElementById("ans1").value.trim();
+            if (userInput === CORRECT_ANSWER_1) {
+                r1Solved = true;
+                document.getElementById("group1").style.display = "none";
+                document.getElementById("msg1").style.display = "block";
+                document.getElementById("card1").classList.add("solved");
+                document.getElementById("d1").innerText = CORRECT_ANSWER_1[0];
+                document.getElementById("d2").innerText = CORRECT_ANSWER_1[1];
+                document.getElementById("d1").classList.add("revealed");
+                document.getElementById("d2").classList.add("revealed");
+                checkSystemStatus();
+            } else {
+                alert("ACCESS DENIED.");
+            }
+        }
+
+        function checkRiddle2() {
+            const userInput = document.getElementById("ans2").value.trim().toUpperCase();
+            if (userInput === CORRECT_ANSWER_2) {
+                r2Solved = true;
+                document.getElementById("group2").style.display = "none";
+                document.getElementById("msg2").style.display = "block";
+                document.getElementById("card2").classList.add("solved");
+                document.getElementById("m1").innerText = "1";
+                document.getElementById("m2").innerText = "2";
+                document.getElementById("m1").classList.add("revealed");
+                document.getElementById("m2").classList.add("revealed");
+                checkSystemStatus();
+            } else {
+                alert("ACCESS DENIED.");
+            }
+        }
+
+        function checkSystemStatus() {
+            if (r1Solved && r2Solved) {
+                document.getElementById("terminal").classList.add("unlocked");
+                document.getElementById("revealBanner").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>

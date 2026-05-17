@@ -355,13 +355,13 @@
         </div>
 
 <div id="countdown-timer" style="font-size: 0.85rem; font-weight: 500; color: #64748b; text-transform: uppercase; margin-top: -25px; margin-bottom: 35px; letter-spacing: 1px; display: none;">
-    SYSTEM SATELLITE SYNCING: T-MINUS <span id="timer-clock" style="color: var(--gold); font-weight: 700;">00:00:00:00</span>
+    COUNTDOWN: <span id="timer-clock" style="color: var(--gold); font-weight: 700;">00:00:00:00</span>
 </div>
 
         <div class="puzzle-section">
             <div class="riddle-card" id="card1">
                 <div class="riddle-title">Database Core 01: Math Riddle</div>
-                <div class="riddle-text">5, 11, 17, [_____], 29.</div>
+                <div class="riddle-text">5, 11, 17, [____], 29.</div>
                 <div class="input-group" id="group1">
                     <input type="text" id="ans1" placeholder="Masukkan perhitungan numerik...">
                     <button onclick="checkRiddle1()">SUBMIT</button>
@@ -527,7 +527,7 @@
                     // Jika masa countdown sudah tamat
                     if (distance < 0) {
                         clearInterval(countdownInterval);
-                        document.getElementById("countdown-timer").innerHTML = "SOCIETY LAUNCHED // THE ELITE ARE ONLINE";
+                        document.getElementById("countdown-timer").innerHTML = "WELCOME TO AES! // THE STUDENTS ARE ONLINE";
                     }
                 }, 1000);
             }

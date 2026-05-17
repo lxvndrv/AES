@@ -354,6 +354,10 @@
             <div class="box" id="y4">?</div>
         </div>
 
+<div id="countdown-timer" style="font-size: 0.85rem; font-weight: 500; color: #64748b; text-transform: uppercase; margin-top: -25px; margin-bottom: 35px; letter-spacing: 1px; display: none;">
+    SYSTEM SATELLITE SYNCING: T-MINUS <span id="timer-clock" style="color: var(--gold); font-weight: 700;">00:00:00:00</span>
+</div>
+
         <div class="puzzle-section">
             <div class="riddle-card" id="card1">
                 <div class="riddle-title">Database Core 01: Math Riddle</div>
@@ -491,6 +495,41 @@
             if (r1Solved && r2Solved && r3Solved) {
                 document.getElementById("terminal").classList.add("unlocked");
                 document.getElementById("revealBanner").style.display = "block";
+                
+                // Paparkan countdown sebaik sahaja sistem berjaya dibuka
+                const timerContainer = document.getElementById("countdown-timer");
+                timerContainer.style.display = "block";
+                
+                // Tetapkan tarikh sasaran pelancaran (28 Disember 2026)
+                const targetDate = new Date("December 28, 2026 00:00:00").getTime();
+                
+                // Jalankan jam berdetik setiap 1 saat
+                const countdownInterval = setInterval(function() {
+                    const now = new Date().getTime();
+                    const distance = targetDate - now;
+                    
+                    // Kiraan Hari, Jam, Minit dan Saat
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    // Pastikan format sentiasa 2 digit (contoh: 09, bukannya 9)
+                    const displayDays = days < 10 ? "0" + days : days;
+                    const displayHours = hours < 10 ? "0" + hours : hours;
+                    const displayMinutes = minutes < 10 ? "0" + minutes : minutes;
+                    const displaySeconds = seconds < 10 ? "0" + seconds : seconds;
+                    
+                    // Masukkan teks masa yang ticking ke dalam skrin
+                    document.getElementById("timer-clock").innerText = 
+                        displayDays + "d " + displayHours + "h " + displayMinutes + "m " + displaySeconds + "s";
+                    
+                    // Jika masa countdown sudah tamat
+                    if (distance < 0) {
+                        clearInterval(countdownInterval);
+                        document.getElementById("countdown-timer").innerHTML = "SOCIETY LAUNCHED // THE ELITE ARE ONLINE";
+                    }
+                }, 1000);
             }
         }
     </script>

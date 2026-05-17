@@ -213,14 +213,44 @@
             padding-top: 25px;
             text-align: left;
         }
+.riddle-card {
+    margin-bottom: 25px;
+    padding: 18px;
+    background-color: #181d22;
+    border-left: 5px solid #475569;
+    border-radius: 0 12px 12px 0;
+    
+    /* Animasi kemasukan: Fade in + White Glow */
+    opacity: 0;
+    animation: glowFadeIn 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
 
-        .riddle-card {
-            margin-bottom: 25px;
-            padding: 18px;
-            background-color: #181d22;
-            border-left: 5px solid #475569;
-            border-radius: 0 12px 12px 0;
-        }
+/* Tetapan kelewatan (delay) supaya soalan muncul satu per satu */
+#card1 { animation-delay: 0.3s; }
+#card2 { animation-delay: 0.7s; }
+#card3 { animation-delay: 1.1s; }
+
+.riddle-card.solved {
+    border-left-color: var(--gold);
+    background-color: #141b18;
+}
+
+/* Formula animasi yang menghasilkan kilauan cahaya putih lembut semasa fade in */
+@keyframes glowFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+        box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); /* Kilauan putih memuncak di tengah animasi */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); /* Kembali kepada bayang gelap biasa */
+    }
+}
 
         .riddle-card.solved {
             border-left-color: var(--gold);
